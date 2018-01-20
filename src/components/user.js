@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 
-export default class User extends Component {
+export default class User extends Component{
     constructor(props){
         super(props)
 
-        this.state = {
+        this.state={
             user: '',
             rank: 0,
             loggedIn: false
@@ -18,7 +18,7 @@ export default class User extends Component {
         })
     }
 
-    handleEnter(){
+    handleChange(e){
         if(this.state.loggedIn===false){
             axios.post('/api/user', this.state).then((resp)=>{
                 this.setState({user:resp.data.user, 
@@ -26,16 +26,17 @@ export default class User extends Component {
                                 loggedIn:true})
             })
         }
+        console.log(this.state)
     }
 
     render(){
+        console.log("USER", this.state.user)
         return(
             <div>
-                <div>HELLO, WHAT IS YOUR NAME?</div>
-                <form onSubmit={()=> {this.handleEnter()}}>
+                <div>CREATE NEW USER</div>
+                <form onSubmit={(e)=> {this.handleChange(e)}}>
                     <input onChange={(e)=>this.newUser(e.target.value)} placeholder="your name" />
-                    {console.log(this.state.user)}
-                    <input type="submit"/>
+                    <button type="submit">submit</button>
                 </form>
             </div>    
         )
